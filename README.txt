@@ -1,45 +1,46 @@
 ----------------------------------------------------------------------------
-                    iTunes Library DisOrganize Utility
+                       iOS App Icon Creation Utility
                                 README file
 
-                                Version 1.0.1
+                                Version 1.0
 ----------------------------------------------------------------------------
-                     (c)Copyright, Terry Nightingale 2015-2016
+                   (c)Copyright, Terry Nightingale 2016
 ----------------------------------------------------------------------------
-This file contains the latest information about DisOrganize. Be sure to
-read it before using DisOrganize.
+This file contains the latest information about MakeAppIcons. Be sure to
+read it before using MakeAppIcons.
 ----------------------------------------------------------------------------
 Contents
 ----
 1. About this software
 2. Usage
 3. License
-4. Contact information
+4. Attribution
+5. Contact information
 
 
 1. About this software
 ----
-This software re-organizes iTunes media files to match the path and name 
-specified in an iTunes library file in XML format. An example of when to
-use this software is when iTunes' attempt to "organize library" goes
-horribly wrong and you have to undo the organization.
+Using a sample image, this software creates application (app) icons in
+all the standard pixel sizes used by iOS.
+
+NOTE: This software requires the Image Magick software package to be
+installed and available in the command path.
 
 
 2. Usage
 ----
-DisOrganize.pl iTunes\ Library.xml 1>DisOrganize.sh 2>DisOrganize.log
+MakeAppIcons.pl <input-image-name.xxx> <output-image-prefix>
 
-As input, pass the name of an iTunes library file in XML format. On STDOUT, 
-the output will be a Unix shell script containing all of the file move
-commands needed to restore your iTunes media files to the state recorded
-in the iTunes library file. On STDERR, the output will be a log of
-the software's activity and information relevant for debugging.
+Input image must be at least 180x180 pixels in size and must be
+square (same pixel height and width). Output files will have names like:
 
-The recommended way to run DisOrganize is to redirect STDOUT to a new
-file which will become the shell script that does the file moving, and to
-redirect STDERR to a log file for easy reference. Once DisOrganize
-finishes running, execute the shell script to accomplish the file moves,
-and your iTunes media files will match your iTunes library file.
+<output-image-prefix> NNNpx.xxx
+
+where NNN is the pixel size, and ".xxx" is the file name extension.
+
+An example command line usage would be:
+
+shell> MakeAppIcons.pl my-spoon-and-fork.png Food\ Tracker
 
 
 3. License
@@ -60,8 +61,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 Visit this URL for more information:
 http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
+4. Attribution
+----
+The image entitled
+"restaurant-cutlery-circular-symbol-of-a-spoon-and-a-fork-in-a-circle.png"
+is used with permission. It was made by Freepik from
+www.flaticon.com. The image entitled "Food Tracker 512px.png" was
+derived from this image.
 
-4. Contact information
+
+5. Contact information
 ----
 You can contact the author of this software by email:
 

@@ -31,6 +31,8 @@
 
 use strict;
 
+use File::Basename;
+
 sub usage() {
   print <<EOM;
 
@@ -60,12 +62,51 @@ sub myLog(+@) {
   }
 }
 
+sub makeImageMagickCommand($;$;$) {
+  my ($inputImageName, $outputImageName, $pixelSize) = @_;
+
+  myLog('error', "Entering makeImageMagickCommand.\n");
+
+  my $imCommand = qq(convert -flatten -resize ${pixelSize}x${pixelSize} +repage '$inputImageName' '$outputImageName');
+
+  myLog('error', "Exiting makeImageMagickCommand.\n");
+
+  return $imCommand;
+}
+
 sub convertImages($;$) {
   my ($inputImageName, $outputImagePrefix) = @_;
 
   myLog('error', "Entering convertImages.\n");
+  myLog('error', "\$inputImageName = [$inputImageName]\n");
+  myLog('error', "\$outputImagePrefix = [$outputImagePrefix]\n");
 
-  ### TNIGHTIN: TODO: the magic(k) happens here...
+  # Get the file extension to use for output files.
+  my ($name, $path, $fileExtension) = fileparse($inputImageName, qr/\.[^.]*/);
+  myLog('error', "\$name = [$name]\n");
+  myLog('error', "\$path = [$path]\n");
+  myLog('error', "\$fileExtension = [$fileExtension]\n");
+
+  # Define the pixel sizes of the images we will output.
+  my @pixelSizes = qw(29 40 58 76 80 87 120 152 167 180);
+
+  foreach my $pixelSize (@pixelSizes) {
+    my $outputImageName = sprintf("%s %03dpx%s", $outputImagePrefix,
+      $pixelSize, $fileExtension);
+    myLog('error', "\$outputImageName = [$outputImageName]\n");
+
+    # Generate the ImageMagick command to resize the image.
+    my $imCommand = makeImageMagickCommand($inputImageName, $outputImageName, $pixelSize);
+    myLog('error', "About to run ImageMagick command: [$imCommand]\n");
+
+    # Run the command to resize the image.
+    my $imReturnCode = system($imCommand);
+
+    myLog('error', "\$imReturnCode was: [$imReturnCode]\n");
+    if ($imReturnCode != 0) {
+      die("ImageMagick command [$imCommand] failed: error $?");
+    }
+  }
 
   myLog('error', "Exiting convertImages.\n");
 }
@@ -76,7 +117,7 @@ sub main() {
     exit(1);
   }
 
-  convertImages(@ARGV);
+  convertImages($ARGV[0], $ARGV[1]);
 }
 
 main();
