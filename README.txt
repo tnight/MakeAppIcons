@@ -61,6 +61,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 Visit this URL for more information:
 http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
+
 4. Attribution
 ----
 The image entitled
